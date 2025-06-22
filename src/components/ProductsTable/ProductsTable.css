@@ -1,0 +1,57 @@
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  align-items:first baseline;
+  justify-content: center;
+  min-height: 100vh; /* Full viewport height */
+  max-width: 80%;
+  margin: 0 auto;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.filters {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filters select,
+.filters input {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.product-table th,
+.product-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.product-table th {
+  background-color: blue;
+  cursor: pointer;
+  user-select: none;
+}
+
+.product-table tr:hover {
+  background-color: blue;
+}
+
+.product-table img {
+  border-radius: 6px;
+}
+
+.product-table td:first-child {
+  text-align: left;
+}
