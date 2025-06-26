@@ -4,7 +4,7 @@ A full-stack web scraping project built with **Django** (backend) and **React** 
 
 ---
 
-## 🔍 Features
+#  Features
 
 - Scrapes product data such as name, price, image, and description.
 - Stores scraped data in a Django backend (SQLite).
@@ -15,7 +15,7 @@ A full-stack web scraping project built with **Django** (backend) and **React** 
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 **Frontend:**
 - React (Vite or Create React App)
@@ -27,19 +27,17 @@ A full-stack web scraping project built with **Django** (backend) and **React** 
 - Requests
 - Django CORS Headers
 
-**Database:**
-- SQLite (default) 
-
 ---
 
 
 
-# =================================  THE DEVELOPMENT PROCESS =================================
+#  THE DEVELOPMENT PROCESS
 
 First created the react frontend and ensured that it was working using dummy data
 
 Then I separated the folders and created a backend folder to scrap the data from the e-commerce website
 
+---
 
 
 
@@ -114,6 +112,7 @@ Then I verified that I have finished setting up my project by running the server
 python3 manage.py runserver
 ```
 
+---
 
 
 # The Frontend
@@ -121,15 +120,7 @@ python3 manage.py runserver
 I used React JS to render the fetched data to the frontend.
 It is a basic react app created with vite with a component that contains all the logic and filtering functions using state management 
 
-
-
-
-
-
-
-
-
-
+---
 
 
 
