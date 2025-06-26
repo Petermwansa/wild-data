@@ -1,26 +1,32 @@
 import { useState } from "react";
-import './ProductsTable.css';
+import "./ProductsTable.css";
 
 const ProductTable = () => {
   const [products, setProducts] = useState([]);
-  const [filterColor, setFilterColor] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [minPrice, setMinPrice] = useState('');
-  const [maxPrice, setMaxPrice] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
+  const [filterColor, setFilterColor] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
   const [loading, setLoading] = useState(false);
 
   const handleSearch = async () => {
     if (!searchTerm.trim()) return;
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8000/api/scrape/?product=${encodeURIComponent(searchTerm)}`);
+      const response = await fetch(
+        `http://localhost:8000/api/scrape/?product=${encodeURIComponent(
+          searchTerm
+        )}`
+      );
       const data = await response.json();
       const enriched = data.products.map((p, index) => ({
         ...p,
         id: index,
         size: "M",
-        photo: `https://via.placeholder.com/60?text=${encodeURIComponent(p.name.slice(0, 3))}`
+        photo: `https://via.placeholder.com/60?text=${encodeURIComponent(
+          p.name.slice(0, 3)
+        )}`,
       }));
       setProducts(enriched);
     } catch (error) {
@@ -33,8 +39,8 @@ const ProductTable = () => {
   const handleSort = (key) => {
     setSortConfig((prev) =>
       prev.key === key
-        ? { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' }
-        : { key, direction: 'asc' }
+        ? { key, direction: prev.direction === "asc" ? "desc" : "asc" }
+        : { key, direction: "asc" }
     );
   };
 
@@ -46,12 +52,21 @@ const ProductTable = () => {
         product.name.toLowerCase().includes(searchTerm.toLowerCase());
 
       const cleanPrice = parseFloat(
-        product.price?.toString().replace(/[^\d.]/g, "").replace(",", ".")
+        product.price
+          ?.toString()
+          .replace(/[^\d.]/g, "")
+          .replace(",", ".")
       );
-      const withinMin = minPrice === '' || cleanPrice >= parseFloat(minPrice);
-      const withinMax = maxPrice === '' || cleanPrice <= parseFloat(maxPrice);
+      const withinMin = minPrice === "" || cleanPrice >= parseFloat(minPrice);
+      const withinMax = maxPrice === "" || cleanPrice <= parseFloat(maxPrice);
 
-      return matchesColor && matchesSearch && !isNaN(cleanPrice) && withinMin && withinMax;
+      return (
+        matchesColor &&
+        matchesSearch &&
+        !isNaN(cleanPrice) &&
+        withinMin &&
+        withinMax
+      );
     })
     .sort((a, b) => {
       if (!sortConfig.key) return 0;
@@ -59,12 +74,24 @@ const ProductTable = () => {
       const bValue = b[sortConfig.key];
 
       if (sortConfig.key === "price") {
-        const aPrice = parseFloat(aValue?.toString().replace(/[^\d.]/g, "").replace(",", "."));
-        const bPrice = parseFloat(bValue?.toString().replace(/[^\d.]/g, "").replace(",", "."));
-        return sortConfig.direction === "asc" ? aPrice - bPrice : bPrice - aPrice;
+        const aPrice = parseFloat(
+          aValue
+            ?.toString()
+            .replace(/[^\d.]/g, "")
+            .replace(",", ".")
+        );
+        const bPrice = parseFloat(
+          bValue
+            ?.toString()
+            .replace(/[^\d.]/g, "")
+            .replace(",", ".")
+        );
+        return sortConfig.direction === "asc"
+          ? aPrice - bPrice
+          : bPrice - aPrice;
       }
-      if (typeof aValue === 'string') {
-        return sortConfig.direction === 'asc'
+      if (typeof aValue === "string") {
+        return sortConfig.direction === "asc"
           ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue);
       }
@@ -78,18 +105,24 @@ const ProductTable = () => {
     <div className="table-container">
       <h2>Products Data</h2>
 
-        <div className="search">
-          <input
-            type="text"
-            placeholder="Search by name"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button onClick={handleSearch}>Search</button>
-        </div>
-      <div className="filters">
-
-        <select value={filterColor} onChange={(e) => setFilterColor(e.target.value)}>
+      <div className="search">
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      {loading ?  (
+        <p>Loading...</p>
+      ) : products.length > 0 ? (
+        <>
+<div className="filters">
+        <select
+          value={filterColor}
+          onChange={(e) => setFilterColor(e.target.value)}
+        >
           <option value="">All Colors</option>
           {uniqueColors.map((color) => (
             <option key={color}>{color}</option>
@@ -120,13 +153,28 @@ const ProductTable = () => {
             <tr>
               <th>Product</th>
               <th onClick={() => handleSort("brand")}>
-                Brand {sortConfig.key === "brand" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                Brand{" "}
+                {sortConfig.key === "brand"
+                  ? sortConfig.direction === "asc"
+                    ? "↑"
+                    : "↓"
+                  : ""}
               </th>
               <th onClick={() => handleSort("price")}>
-                Price {sortConfig.key === "price" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                Price{" "}
+                {sortConfig.key === "price"
+                  ? sortConfig.direction === "asc"
+                    ? "↑"
+                    : "↓"
+                  : ""}
               </th>
               <th onClick={() => handleSort("color")}>
-                Color {sortConfig.key === "color" ? (sortConfig.direction === "asc" ? "↑" : "↓") : ""}
+                Color{" "}
+                {sortConfig.key === "color"
+                  ? sortConfig.direction === "asc"
+                    ? "↑"
+                    : "↓"
+                  : ""}
               </th>
             </tr>
           </thead>
@@ -134,7 +182,13 @@ const ProductTable = () => {
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
                 <tr key={product.id}>
-                  <td style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <td
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
                     <img src={product.image} alt={product.image} width="60" />
                     <span>{product.name}</span>
                   </td>
@@ -153,6 +207,9 @@ const ProductTable = () => {
           </tbody>
         </table>
       )}
+        </>
+      ) : null}
+
     </div>
   );
 };
