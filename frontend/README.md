@@ -116,6 +116,16 @@ python3 manage.py runserver
 
 
 
+# The Frontend
+
+I used React JS to render the fetched data to the frontend.
+It is a basic react app created with vite with a component that contains all the logic and filtering functions using state management 
+
+
+
+
+
+
 
 
 
@@ -129,11 +139,12 @@ User Action: A user visits the frontend and clicks "Search" or refreshes the pag
 
 API Call: React makes an API request to Django’s /api/scrape/ endpoint.
 
-Web Scraping: Django uses requests + BeautifulSoup to scrape data.
+Web Scraping: Django scrapes the data from the wildberries website
 
-Store Data: Scraped data is saved to the database.
+Returns Data: Data is returned via API endpoint to the frontend and rendered as a table.
 
-Return Data: Data is returned via API to the frontend and rendered as a list/grid.
+
+
 
 
 

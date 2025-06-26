@@ -10,6 +10,7 @@ const ProductTable = () => {
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "asc" });
   const [loading, setLoading] = useState(false);
 
+  // this is the function to handle the search button click 
   const handleSearch = async () => {
     if (!searchTerm.trim()) return;
     setLoading(true);
@@ -23,14 +24,11 @@ const ProductTable = () => {
       const enriched = data.products.map((p, index) => ({
         ...p,
         id: index,
-        size: "M",
-        photo: `https://via.placeholder.com/60?text=${encodeURIComponent(
-          p.name.slice(0, 3)
-        )}`,
       }));
+
       setProducts(enriched);
     } catch (error) {
-      console.error("Failed to fetch products:", error);
+      console.error("Не удалось получить продукты:", error);
     } finally {
       setLoading(false);
     }
@@ -51,6 +49,7 @@ const ProductTable = () => {
         product.color.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.name.toLowerCase().includes(searchTerm.toLowerCase());
 
+      // in this code snippet, we trim the price to only return a number to use in filtering by price 
       const cleanPrice = parseFloat(
         product.price
           ?.toString()
@@ -103,113 +102,116 @@ const ProductTable = () => {
 
   return (
     <div className="table-container">
-      <h2>Products Data</h2>
+      <h2>Поиск данных о продуктах</h2>
 
       <div className="search">
         <input
           type="text"
-          placeholder="Search by name"
+          placeholder="Поиск по имени"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button onClick={handleSearch}>Search</button>
+        <button onClick={handleSearch}>Поиск</button>
       </div>
-      {loading ?  (
-        <p>Loading...</p>
+      {loading ? (
+        <p>Загрузка...</p>
       ) : products.length > 0 ? (
         <>
-<div className="filters">
-        <select
-          value={filterColor}
-          onChange={(e) => setFilterColor(e.target.value)}
-        >
-          <option value="">All Colors</option>
-          {uniqueColors.map((color) => (
-            <option key={color}>{color}</option>
-          ))}
-        </select>
+          <div className="filters">
+            <select
+              value={filterColor}
+              onChange={(e) => setFilterColor(e.target.value)}
+            >
+              <option value="">Все цвета</option>
+              {uniqueColors.map((color) => (
+                <option key={color}>{color}</option>
+              ))}
+            </select>
 
-        <input
-          type="number"
-          placeholder="Min Price"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
-          style={{ width: "100px" }}
-        />
-        <input
-          type="number"
-          placeholder="Max Price"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
-          style={{ width: "100px" }}
-        />
-      </div>
+            <input
+              type="number"
+              placeholder="от"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              style={{ width: "100px" }}
+            />
+            <input
+              type="number"
+              placeholder="до"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              style={{ width: "100px" }}
+            />
+          </div>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th onClick={() => handleSort("brand")}>
-                Brand{" "}
-                {sortConfig.key === "brand"
-                  ? sortConfig.direction === "asc"
-                    ? "↑"
-                    : "↓"
-                  : ""}
-              </th>
-              <th onClick={() => handleSort("price")}>
-                Price{" "}
-                {sortConfig.key === "price"
-                  ? sortConfig.direction === "asc"
-                    ? "↑"
-                    : "↓"
-                  : ""}
-              </th>
-              <th onClick={() => handleSort("color")}>
-                Color{" "}
-                {sortConfig.key === "color"
-                  ? sortConfig.direction === "asc"
-                    ? "↑"
-                    : "↓"
-                  : ""}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredProducts.length > 0 ? (
-              filteredProducts.map((product) => (
-                <tr key={product.id}>
-                  <td
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                    }}
-                  >
-                    <img src={product.image} alt={product.image} width="60" />
-                    <span>{product.name}</span>
-                  </td>
-                  <td>{product.brand}</td>
-                  <td>{product.price}</td>
-                  <td>{product.color}</td>
+          {loading ? (
+            <p>Загрузка...</p>
+          ) : (
+            <table className="product-table">
+              <thead>
+                <tr>
+                  <th>Продукт</th>
+                  <th onClick={() => handleSort("brand")}>
+                    Бренд{" "}
+                    {sortConfig.key === "brand"
+                      ? sortConfig.direction === "asc"
+                        ? "↑"
+                        : "↓"
+                      : ""}
+                  </th>
+                  <th onClick={() => handleSort("price")}>
+                    Цена{" "}
+                    {sortConfig.key === "price"
+                      ? sortConfig.direction === "asc"
+                        ? "↑"
+                        : "↓"
+                      : ""}
+                  </th>
+                  <th onClick={() => handleSort("color")}>
+                    Цвет{" "}
+                    {sortConfig.key === "color"
+                      ? sortConfig.direction === "asc"
+                        ? "↑"
+                        : "↓"
+                      : ""}
+                  </th>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" style={{ textAlign: "center" }}>
-                  No products found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      )}
+              </thead>
+              <tbody>
+                {filteredProducts.length > 0 ? (
+                  filteredProducts.map((product) => (
+                    <tr key={product.id}>
+                      <td
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <img
+                          src={product.image}
+                          alt={product.image}
+                          width="60"
+                        />
+                        <span>{product.name}</span>
+                      </td>
+                      <td>{product.brand}</td>
+                      <td>{product.price}</td>
+                      <td>{product.color}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="4" style={{ textAlign: "center" }}>
+                      Ничего не найдено
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          )}
         </>
       ) : null}
-
     </div>
   );
 };
