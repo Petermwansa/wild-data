@@ -5,6 +5,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 import time
+from django.http import JsonResponse
+
 
 def get_content(product_name, limit=5000):
     options = Options()
@@ -81,4 +83,4 @@ def get_content(product_name, limit=5000):
 def scrape_view(request):
     product_query = request.GET.get("product")
     products = get_content(product_query) if product_query else []
-    return render(request, "wild/results.html", {"products": products})
+    return JsonResponse({"products": products}, safe=False)
