@@ -2,17 +2,43 @@
 .table-container {
   display: flex;
   flex-direction: column;
-  align-items:first baseline;
-  justify-content: center;
-  min-height: 100vh; /* Full viewport height */
+  align-items: flex-start;
+  justify-content: flex-start;
   max-width: 80%;
-  margin: 0 auto;
+  margin: -5rem auto;
   font-family: sans-serif;
   text-align: center;
 }
 
+.search {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.search input {
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+
+.search button {
+  margin-top: -.2rem;
+  background-color: blue;
+}
+
+.search button:hover {
+  background-color: black;
+  color: white;
+}
+
 .filters {
   margin-bottom: 2rem;
+  margin-top: 1rem;
   display: flex;
   justify-content: center;
   gap: 1rem;

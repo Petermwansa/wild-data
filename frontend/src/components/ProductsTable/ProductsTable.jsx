@@ -78,14 +78,16 @@ const ProductTable = () => {
     <div className="table-container">
       <h2>Products Data</h2>
 
+        <div className="search">
+          <input
+            type="text"
+            placeholder="Search by name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button onClick={handleSearch}>Search</button>
+        </div>
       <div className="filters">
-        <input
-          type="text"
-          placeholder="Search by name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
 
         <select value={filterColor} onChange={(e) => setFilterColor(e.target.value)}>
           <option value="">All Colors</option>
