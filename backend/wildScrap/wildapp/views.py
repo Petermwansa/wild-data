@@ -9,7 +9,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 
-def get_content(product_name, limit=5):  # I reduced for performance in development mode but it can be removed in production
+def get_content(product_name, limit=50):  # I reduced for performance in development mode but it can be removed in production
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--disable-blink-features=AutomationControlled")
